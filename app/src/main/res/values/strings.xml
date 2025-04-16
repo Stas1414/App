@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">App</string>
-    <string name="btnFind">Найти сделку</string>
+    <string name="btnMoving">Принять перемещение</string>
+    <string name="btnGiveDeal">Выдать заказ</string>
+    <string name="btnGettingDeal">Принять возврат</string>
+    <string name="tvAuth">Введите пароль</string>
 </resources>

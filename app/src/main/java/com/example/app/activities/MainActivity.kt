@@ -9,16 +9,47 @@ import com.example.app.R
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var btnFind: Button
+    private lateinit var btnMoving: Button
+    private lateinit var btnGettingDeal: Button
+    private lateinit var btnGiveDeal: Button
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnFind = findViewById(R.id.btnFind)
-        btnFind.setOnClickListener {
-            startActivity(Intent(this, BarcodeScannerActivity::class.java))
+        initButton()
+
+        btnMoving.setOnClickListener {
+            startMovingActivity()
         }
+
+        btnGiveDeal.setOnClickListener {
+            startGivingActivity()
+        }
+
+        btnGettingDeal.setOnClickListener {
+            startGettingActivity()
+        }
+    }
+
+
+    private fun initButton() {
+        btnMoving = findViewById(R.id.btnMoving)
+        btnGiveDeal = findViewById(R.id.btnGiveDeal)
+        btnGettingDeal = findViewById(R.id.btnGettingDeal)
+    }
+
+
+    private fun startMovingActivity() {
+
+    }
+
+    private fun startGivingActivity() {
+
+    }
+
+    private fun startGettingActivity() {
+
     }
 }

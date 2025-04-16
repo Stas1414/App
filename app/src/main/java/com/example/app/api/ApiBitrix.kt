@@ -1,7 +1,10 @@
 package com.example.app.api
 
 import com.example.app.request.DealByBarcodeRequest
+import com.example.app.request.PasswordRequest
 import com.example.app.response.DealByBarcodeResponse
+import com.example.app.response.PasswordResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,4 +15,8 @@ interface ApiBitrix {
     suspend fun getDealByBarcode(
         @Body request: DealByBarcodeRequest
     ) : Response<DealByBarcodeResponse>
+
+
+    @POST("lists.element.get")
+    fun getPasswords(@Body request: PasswordRequest): Call<PasswordResponse>
 }

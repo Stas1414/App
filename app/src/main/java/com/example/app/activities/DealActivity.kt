@@ -12,7 +12,7 @@ import com.example.app.model.Deal
 class DealActivity : AppCompatActivity() {
 
 
-    private val DEAL_EXTRA_KEY = "DEAL_EXTRA"
+    private val dealExtraKey = "DEAL_EXTRA"
 
 
     private lateinit var tvDealTitle: TextView
@@ -60,9 +60,9 @@ class DealActivity : AppCompatActivity() {
     @Suppress("DEPRECATION")
     private fun getDealFromIntent(): Deal? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(DEAL_EXTRA_KEY, Deal::class.java)
+            intent.getSerializableExtra(dealExtraKey, Deal::class.java)
         } else {
-            intent.getSerializableExtra(DEAL_EXTRA_KEY) as? Deal
+            intent.getSerializableExtra(dealExtraKey) as? Deal
         }
     }
 }

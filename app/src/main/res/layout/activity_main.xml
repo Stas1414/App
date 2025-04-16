@@ -8,14 +8,40 @@
     tools:context=".activities.MainActivity">
 
     <Button
-        android:id="@+id/btnFind"
+        android:id="@+id/btnGiveDeal"
         android:layout_width="345dp"
         android:layout_height="117dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="80dp"
         android:backgroundTint="@color/black"
-        android:text="@string/btnFind"
+        android:text="@string/btnGiveDeal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMoving"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnMoving"
+        android:layout_width="345dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/btnMoving"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGettingDeal"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnGettingDeal"
+        android:layout_width="345dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="108dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/btnGettingDeal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
