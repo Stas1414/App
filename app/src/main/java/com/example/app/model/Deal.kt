@@ -1,7 +1,9 @@
 package com.example.app.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-
+import java.io.Serializable
 
 
 data class Deal(
@@ -149,4 +151,6 @@ data class Deal(
 
     @SerializedName("LAST_ACTIVITY_BY")
     val lastActivityBy: String?
-)
+) : Serializable{
+
+}
