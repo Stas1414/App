@@ -9,10 +9,8 @@ import com.example.app.request.DocumentElementRequest
 import com.example.app.request.DocumentIdRequest
 import com.example.app.request.DocumentRequest
 import com.example.app.request.ProductIdRequest
-import com.example.app.response.DocumentElementResponse
 import com.example.app.response.DocumentIdResponse
 import com.example.app.response.DocumentResponse
-import com.example.app.response.ProductResponse
 import com.example.app.response.StoreResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -45,93 +43,44 @@ class DocumentService {
         apiBarcode = barcodeRetrofit.create(ApiBitrix::class.java)
     }
 
-//    suspend fun getEnrichedDocumentElementsForDocumentOptimized(docId: String): List<DocumentElement>? {
-//        if (docId.isBlank()) {
-//            Log.e("DocumentService", "Cannot fetch document elements: docId is blank.")
-//            return null
-//        }
-//
-//        return withContext(Dispatchers.IO) {
-//            try {
-//
-//                Log.d("DocumentService", "Step 1: Attempting to fetch initial document elements for docId: $docId")
-//                val initialRequest = DocumentElementRequest(
-//                    filter = mutableMapOf("docId" to docId)
-//                )
-//                val initialResponse: Response<DocumentElementResponse> = apiBitrix.getDocumentElements(initialRequest)
-//
-//                if (!initialResponse.isSuccessful) {
-//                    Log.e("DocumentService", "Step 1 Failed: Failed to fetch initial elements for docId $docId. Code: ${initialResponse.code()}, Error: ${initialResponse.errorBody()?.string()}")
-//                    return@withContext null
-//                }
-//
-//                val initialElements: List<DocumentElement> = initialResponse.body()?.result?.documentElements ?: emptyList()
-//
-//                if (initialElements.isEmpty()) {
-//                    Log.w("DocumentService", "Step 1 Success: No document elements found for docId $docId.")
-//                    return@withContext emptyList()
-//                }
-//                Log.i("DocumentService", "Step 1 Success: Fetched ${initialElements.size} elements for docId $docId.")
-//
-//
-//                val productIdsToFetch: List<Int> = initialElements
-//                    .mapNotNull { it.elementId }
-//                    .distinct()
-//
-//
-//                if (productIdsToFetch.isEmpty()) {
-//                    Log.w("DocumentService", "Step 2: No valid product elementIds found in fetched elements. Returning initial list.")
-//                    return@withContext initialElements
-//                }
-//                Log.d("DocumentService", "Step 2: Found ${productIdsToFetch.size} unique product IDs to fetch: $productIdsToFetch")
-//
-//
-//                Log.d("DocumentService", "Step 3: Fetching product info for ${productIdsToFetch.size} IDs...")
-//                val productRequest = ProductIdRequest(
-//
-//                    filter = mutableMapOf("id" to productIdsToFetch),
-//                    select = listOf("id", "iblockId", "name")
-//                )
-//                val productResponse: Response<ProductResponse> = apiBitrix.getProductsById(productRequest)
-//
-//                val productNameMap: Map<Int, String>
-//                if (productResponse.isSuccessful) {
-//                    val productInfoList = productResponse.body()?.result?.products
-//                    productNameMap = productInfoList
-//                        ?.mapNotNull { product ->
-//                            product.id?.let { id ->
-//                                product.name?.let { name ->
-//                                    id to name
-//                                }
-//                            }
-//                        }
-//                        ?.toMap() ?: emptyMap()
-//
-//                    Log.i("DocumentService", "Step 3 Success: Fetched info for ${productNameMap.size} products.")
-//                } else {
-//                    Log.e("DocumentService", "Step 3 Failed: Failed to fetch product info. Code: ${productResponse.code()}, Error: ${productResponse.errorBody()?.string()}")
-//
-//                    return@withContext null
-//                }
-//
-//
-//                Log.d("DocumentService", "Step 4: Enriching document elements...")
-//                val enrichedElements = initialElements.map { element ->
-//
-//                    val productName = element.elementId?.let { productNameMap[it] }
-//
-//                    element.copy(name = productName)
-//                }
-//
-//                Log.i("DocumentService", "Step 4 Success: Enrichment complete. Returning ${enrichedElements.size} elements.")
-//                enrichedElements
-//
-//            } catch (e: Exception) {
-//                Log.e("DocumentService", "Error during enrichment process for docId $docId", e)
-//                null
-//            }
-//        }
-//    }
+
+    suspend fun conductDocument(docId: String): Boolean {
+
+        val documentIdInt = docId.toIntOrNull()
+        if (documentIdInt == null) {
+            Log.e("DocumentService", "Cannot conduct document: Invalid docId format '$docId'. Expected an integer.")
+            return false
+        }
+
+
+        return withContext(Dispatchers.IO) {
+            try {
+                Log.i("DocumentService", "Attempting to conduct document with ID: $documentIdInt")
+
+                val response: Response<HashMap<String, Any?>> = apiBitrix.conductDocument(id = documentIdInt)
+
+
+                if (response.isSuccessful) {
+                    Log.i("DocumentService", "Document ID $documentIdInt conducted successfully. Status: ${response.code()}")
+                    true
+
+                } else {
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("DocumentService", "Failed to conduct document ID $documentIdInt. Code: ${response.code()}, Error: $errorBody")
+                    false
+                }
+            } catch (e: NumberFormatException) {
+
+                Log.e("DocumentService", "Error conducting document: Invalid number format for docId '$docId'", e)
+                false
+            } catch (e: Exception) {
+
+                Log.e("DocumentService", "Error conducting document ID $documentIdInt", e)
+                false
+            }
+        }
+    }
 
     suspend fun getEnrichedDocumentElementsForDocumentOptimized(docId: String): List<DocumentElement>? {
         if (docId.isBlank()) {
@@ -142,24 +91,24 @@ class DocumentService {
 
         return withContext(Dispatchers.IO) {
             try {
-                // --- Шаг 1: Получаем исходные элементы документа ---
+
                 Log.d("DocumentService", "Step 1: Fetching initial document elements for docId: $docId")
                 val initialElements = fetchInitialDocumentElements(docId)
-                    ?: return@withContext null // Если ошибка, выходим из withContext
+                    ?: return@withContext null
 
                 if (initialElements.isEmpty()) {
                     Log.w("DocumentService", "Step 1 Success: No document elements found for docId $docId.")
-                    return@withContext emptyList() // Возвращаем пустой список
+                    return@withContext emptyList()
                 }
                 Log.i("DocumentService", "Step 1 Success: Fetched ${initialElements.size} elements.")
 
-                // --- Шаг 2: Собираем уникальные ID Продуктов и Складов ---
+
                 val productIdsToFetch = initialElements.mapNotNull { it.elementId }.distinct()
                 val storeIdsFrom = initialElements.mapNotNull { it.storeFrom }.distinct()
 
                 Log.d("DocumentService", "Step 2: Unique Product IDs: $productIdsToFetch, Unique Store IDs: $storeIdsFrom")
 
-                // --- Шаг 3: Параллельно получаем данные о Продуктах и Складах ---
+
                 var productNameMap: Map<Int, String> = emptyMap()
                 var storeNameMap: Map<Int, String> = emptyMap()
 

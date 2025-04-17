@@ -72,4 +72,9 @@ interface ApiBitrix {
 
     @GET("catalog.store.list")
     suspend fun getStoreList(): Response<StoreResponse>
+
+    @GET("catalog.document.conduct")
+    suspend fun conductDocument(
+        @Query("id") id: Int
+    ) : Response<HashMap<String, Any?>>
 }

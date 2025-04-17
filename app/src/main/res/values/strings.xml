@@ -8,4 +8,5 @@
     <string name="documentNumber">Document number</string>
     <string name="arrivalDate">Дата прихода</string>
     <string name="btnOpenDocument">Открыть</string>
+    <string name="btnConductDocument">Провести документ</string>
 </resources>
