@@ -4,4 +4,8 @@
     <string name="btnGiveDeal">Выдать заказ</string>
     <string name="btnGettingDeal">Принять возврат</string>
     <string name="tvAuth">Введите пароль</string>
+    <string name="documentType">Документ перемещения</string>
+    <string name="documentNumber">Document number</string>
+    <string name="arrivalDate">Дата прихода</string>
+    <string name="btnOpenDocument">Открыть</string>
 </resources>

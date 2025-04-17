@@ -5,7 +5,6 @@ import com.example.app.api.ApiBitrix
 import com.example.app.model.Deal
 import com.example.app.model.Stage
 import com.example.app.request.DealByBarcodeRequest
-import com.example.app.request.NewDocumentRequest
 import com.example.app.request.StageRequest
 import com.example.app.request.UpdateDealRequest
 import com.example.app.response.StageResponse
