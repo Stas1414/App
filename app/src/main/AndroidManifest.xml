@@ -18,13 +18,16 @@
         android:theme="@style/Theme.App"
         tools:targetApi="31">
         <activity
+            android:name=".activities.MovingScannerActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.DealActivity"
+            android:name=".activities.OrderIssueActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.BarcodeScannerActivity"
+            android:name=".activities.OrderIssueScannerActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

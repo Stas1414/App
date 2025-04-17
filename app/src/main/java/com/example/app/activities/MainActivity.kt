@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnGiveDeal.setOnClickListener {
-            startGivingActivity()
+            startOrderIssueActivity()
         }
 
         btnGettingDeal.setOnClickListener {
@@ -45,8 +45,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun startGivingActivity() {
-
+    private fun startOrderIssueActivity() {
+        val intent = Intent(this, OrderIssueScannerActivity::class.java)
+        startActivity(intent)
     }
 
     private fun startGettingActivity() {

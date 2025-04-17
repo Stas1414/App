@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-class BarcodeScannerActivity : AppCompatActivity() {
+class OrderIssueScannerActivity : AppCompatActivity() {
 
 
     private lateinit var cameraExecutor: ExecutorService
@@ -157,9 +157,9 @@ class BarcodeScannerActivity : AppCompatActivity() {
             } catch (exc: Exception) {
                 Log.e("CAMERA", "Use case binding failed", exc)
                 Toast.makeText(this, "Не удалось запустить камеру: ${exc.message}", Toast.LENGTH_LONG).show()
-                finish() // Закрываем, если не удалось запустить камеру
+                finish()
             }
-        }, ContextCompat.getMainExecutor(this)) // Listener выполняется в главном потоке
+        }, ContextCompat.getMainExecutor(this))
     }
 
 
@@ -228,7 +228,7 @@ class BarcodeScannerActivity : AppCompatActivity() {
 
             if (errorOccurred) {
                 runOnUiThread {
-                    Toast.makeText(this@BarcodeScannerActivity, "Ошибка сети или сервера", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@OrderIssueScannerActivity, "Ошибка сети или сервера", Toast.LENGTH_SHORT).show()
                     textViewStatus.text = "Ошибка. Попробуйте снова."
                 }
                 isProcessingBarcode.set(false)
@@ -248,7 +248,7 @@ class BarcodeScannerActivity : AppCompatActivity() {
     private fun navigateToDealDetails(deal: Deal) {
         Log.d("NAVIGATION", "Navigating to DealActivity with Deal ID: ${deal.id}")
 
-        val intent = Intent(this, DealActivity::class.java)
+        val intent = Intent(this, OrderIssueActivity::class.java)
         intent.putExtra("DEAL_EXTRA", deal)
         startActivity(intent)
         finish()
